@@ -23,15 +23,30 @@ test('renders ONE error message if user enters less then 5 characters into first
     render(<ContactForm />);
     const firstName = screen.getByPlaceholderText(/edd/i);
     userEvent.type(firstName, 'jess');
-
 });
 
 test('renders THREE error messages if user enters no values into any fields.', async () => {
+    render(<ContactForm />);
+    const firstName= screen.getByPlaceholderText(/edd/i);
+    userEvent.type(firstName, '');
     
+    const lastName= screen.getByPlaceholderText(/burke/i);
+    userEvent.type(lastName, '');
+
+    const email= screen.getByPlaceholderText(/bluebill/i);
+    userEvent.type(email, '');
 });
 
 test('renders ONE error message if user enters a valid first name and last name but no email.', async () => {
+    render(<ContactForm/>);
+    const firstName= screen.getByPlaceholderText(/edd/i);
+    userEvent.type(firstName, 'Jessica');
     
+    const lastName= screen.getByPlaceholderText(/burke/i);
+    userEvent.type(lastName, 'Williams');
+
+    const email= screen.getByPlaceholderText(/bluebill/i);
+    userEvent.type(email, '');
 });
 
 test('renders "email must be a valid email address" if an invalid email is entered', async () => {
