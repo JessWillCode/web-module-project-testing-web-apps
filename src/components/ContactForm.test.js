@@ -13,6 +13,7 @@ test('renders the contact form header', ()=> {
     render(
         <h1>Contact Form</h1>
     );
+    
     const header = screen.queryByText(/contact form/i);
     expect(header).toBeInTheDocument();
     expect(header).toBeTruthy();
@@ -21,12 +22,14 @@ test('renders the contact form header', ()=> {
 
 test('renders ONE error message if user enters less then 5 characters into firstname.', async () => {
     render(<ContactForm />);
+    
     const firstName = screen.getByPlaceholderText(/edd/i);
     userEvent.type(firstName, 'jess');
 });
 
 test('renders THREE error messages if user enters no values into any fields.', async () => {
     render(<ContactForm />);
+    
     const firstName= screen.getByPlaceholderText(/edd/i);
     userEvent.type(firstName, '');
     
@@ -39,6 +42,7 @@ test('renders THREE error messages if user enters no values into any fields.', a
 
 test('renders ONE error message if user enters a valid first name and last name but no email.', async () => {
     render(<ContactForm/>);
+    
     const firstName= screen.getByPlaceholderText(/edd/i);
     userEvent.type(firstName, 'Jessica');
     
@@ -50,11 +54,25 @@ test('renders ONE error message if user enters a valid first name and last name 
 });
 
 test('renders "email must be a valid email address" if an invalid email is entered', async () => {
+    render(<ContactForm/>);
     
+    const email= screen.getByPlaceholderText(/bluebill/i);
+    userEvent.type(email, 'jesswill');
+    
+    await screen.findByText(/email must be a valid email address/i);
 });
 
 test('renders "lastName is a required field" if an last name is not entered and the submit button is clicked', async () => {
-    
+    render(<ContactForm/>); 
+
+    const lastName = screen.getByPlaceholderText(/burke/i);
+
+    const submit = screen.getByRole('button', {name: 'Submit'});
+
+    userEvent.type(lastName, '');
+    userEvent.click(submit);
+
+    await screen.findByText(/lastName is a required field/i);
 });
 
 test('renders all firstName, lastName and email text when submitted. Does NOT render message if message is not submitted.', async () => {
